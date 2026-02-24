@@ -21,7 +21,7 @@ export async function getTokenLinksFromPath(token, potentialWildcardPath) {
   // Use await to wait for the promise to resolve
   let links = await getLinksForCreatures(system, creatures);
   links = links
-    .filter((link) => regex.test(link) && link.length > 0)
+    .filter((link) => regex.test(link))
     .map((link) => link.replace(/\r/g, ""));
   // console.log(links);
   // applyRandomTokenImages(
@@ -125,14 +125,18 @@ function removeLinesEndingWithTxt(text) {
   const lines = text.split(/\r?\n/);
 
   // Filter out the lines that don't end with .txt
-  const filteredLines = lines.filter(
-    (line) => !line.trim().endsWith(".txt") && line.trim().length > 0
-  );
+  const filteredLines = lines.filter((line) => !line.trim().endsWith(".txt"));
 
   return filteredLines;
 }
 
 export async function applyRandomTokenImages(tokenDocument, system, links) {
+  if (!Array.isArray(links) || links.length === 0) {
+    ui.notifications.warn(
+      "No random token image found. Check that the token uses a TMTO wildcard and matching images exist."
+    );
+    return;
+  }
   const imageChoice = Math.floor(Math.random() * links.length);
   const image = links[imageChoice];
   try {
