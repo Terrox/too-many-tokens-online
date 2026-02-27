@@ -133,7 +133,7 @@ function removeLinesEndingWithTxt(text) {
 export async function applyRandomTokenImages(tokenDocument, system, links) {
   if (!Array.isArray(links) || links.length === 0) {
     ui.notifications.warn(
-      "No random token image found. Check that the token uses a TMTO wildcard and matching images exist."
+      "No random token image found. Check that the token uses a TooManyTokensOnline wildcard and matching images exist. Search names here https://toomanytokens.com/index.html?system=pf"
     );
     return;
   }
